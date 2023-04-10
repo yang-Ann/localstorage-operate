@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="module">
+    import LocalstorageOperate from "./lib/bundle.esm.js";
+
+    // web 平台, 数据默认超时 1000ms
+    const instance = new LocalstorageOperate("web", 1000);
+
+      instance.setStorage("userInfo", {
+        name: "张三",
+        age: 18
+      }).then(() => {
+        console.log("存储成功");
+      }).catch(err => {
+        console.log("存储失败: ", err);
+      });
+
+      instance.getStorage("userInfo")
+        .then(res => {
+          console.log("asyncRes: ", res);
+        }).catch(err => {
+          console.log("获取失败: ", err);
+        });
+
+      instance.getStorage("userInfo", (err, res) => {
+        if (err) {
+          console.log("获取失败: ", err);
+          return;
+        }
+        console.log("callbackRes: ", res);
+      });
+
+
+      setTimeout(() => {
+        instance.getStorage("userInfo")
+          .then(res => {
+            console.log("res: ", res);
+          }).catch(err => {
+            if (err.flog === LocalstorageOperate.OVERTIME) {
+              // 数据已超时
+              console.log(err);
+            } else if (err.flog === LocalstorageOperate.VOID) {
+              // 不存在对应的数据
+              console.log(err);
+            } else {
+              console.log("其他错误: ", err);
+            }
+          });
+      }, 1500);
+
+
+  </script>
+</body>
+
+</html>
