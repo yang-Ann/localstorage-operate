@@ -277,7 +277,7 @@ class CatchAdapter {
 	}
 	
 	/**
-	 * 清空缓存的数据
+	 * 清空带有缓存的数据
 	 */
 	public clearDateStorage(callback?: CallbackType) {
 		return new Promise(async (resolve, reject) => {
@@ -328,6 +328,7 @@ class CatchAdapter {
 			}
 		});
 	}
+	
 	/**
 	 * 获取所有缓存数据的key
 	 */
