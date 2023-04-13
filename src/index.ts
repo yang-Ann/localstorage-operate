@@ -240,6 +240,7 @@ class CatchAdapter {
 					[this.cacheKey]: Date.now(),
 					[this.overtimeKey]: cacheTime,
 				};
+				console.log("存储的数据: ", obj);
 				const res = this.#setStorage(key, JSON.stringify(obj));
 				this.callFn(callback, null, res, () => resolve(res));
 			} catch (err) {
@@ -299,7 +300,7 @@ class CatchAdapter {
 	public getStorageInfo(callback?: CallbackType): P<StorageInfoType> {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const storage = await this.#getStorageInfo();
+				const storage = this.#getStorageInfo();
 
 				const result = Object.create(null);
 				result.cache = [], // 缓存数据
@@ -310,7 +311,12 @@ class CatchAdapter {
 					let value = this.#getStorage(key);
 					// JSON 化一下
 					try {
-						value = JSON.parse(value);
+						if (
+							value.indexOf(this.cacheKey) !== -1 &&
+							value.indexOf(this.overtimeKey) !== -1
+						) {
+							value = JSON.parse(value);
+						}
 					} catch (error) {
 						console.log("json转换失败了: ", error);
 					}
@@ -355,7 +361,7 @@ class CatchAdapter {
 				for (let i = 0; i < catchData.length; i++) {
 					const { key, value } = catchData[i];
 					if (key && Date.now() >= value[this.overtimeKey]) {
-						console.log("清理已超时的缓存数据 --> : ", key);
+						console.log("清理已超时的缓存数据 -->", key);
 						await this.#removeStorage(key);
 					}
 				}
