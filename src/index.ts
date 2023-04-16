@@ -240,7 +240,6 @@ class CatchAdapter {
 					[this.cacheKey]: Date.now(),
 					[this.overtimeKey]: cacheTime,
 				};
-				console.log("存储的数据: ", obj);
 				const res = this.#setStorage(key, JSON.stringify(obj));
 				this.callFn(callback, null, res, () => resolve(res));
 			} catch (err) {

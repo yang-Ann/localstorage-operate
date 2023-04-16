@@ -60,7 +60,7 @@ declare class CatchAdapter {
      */
     clearStorage(callback?: CallbackType): Promise<unknown>;
     /**
-     * 清空缓存的数据
+     * 清空带有缓存的数据
      */
     clearDateStorage(callback?: CallbackType): Promise<unknown>;
     /**

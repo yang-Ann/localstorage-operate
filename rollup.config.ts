@@ -22,6 +22,7 @@ export default defineConfig({
     {
       file: pkg.main,
       format: "cjs",
+      exports: "default",
     },
     {
       file: pkg.amd,

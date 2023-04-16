@@ -19,25 +19,24 @@
 
     <br />
 
-    <button :disabled="!key || !value" :onclick="onSetStorage">存储数据</button>
-    <button :disabled="!key" :onclick="onGetStorage">获取数据</button>
-    <button :onclick="handleDataGet">获取数据异常处理</button>
-    <button :onclick="getStorageInfo">获取存储数据信息</button>
-    <button :onclick="clearStorage">清除存储数据</button>
-    <button :onclick="originMethods">原方法</button>
+    <button :disabled="!key || !value" @click="onSetStorage">存储数据</button>
+    <button :disabled="!key" @click="onGetStorage">获取数据</button>
+    <button @click="getStorageInfo">获取存储数据信息</button>
+    <button @click="clearStorage">清除带缓存的数据</button>
+    <button @click="originMethods">原方法</button>
 
   </div>
   <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
   <script type="module">
-    // import LocalstorageOperate from "./lib/bundle.esm.js";
-    import LocalstorageOperate from "./dist/index.js";
+    import LocalstorageOperate from "./lib/bundle.esm.js";
     import * as Vue from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 
     console.log("Vue: ", Vue);
     const { createApp, ref } = Vue;
+    const overtime = 5000;
 
     // web 平台, 数据默认超时 5000ms
-    const instance = new LocalstorageOperate("web", 5000);
+    const instance = new LocalstorageOperate("web", overtime);
 
     // 开启定时清除缓存(根据数据超时时间(5000ms)自动清理超时数据)
     // const instance = new LocalstorageOperate("web", 5000, true);
@@ -47,18 +46,17 @@
         return {
           key: "",
           value: "",
-          overtime: 10000,
+          overtime,
         }
       },
       methods: {
         // 存储数据
         onSetStorage() {
-          console.log("onGetStorage");
           // 可以不指定时长, 这样就是默认时长, 存储的值可以是对象
           instance.setStorage(this.key, this.value, this.overtime).then(() => {
             console.log("async success");
           }).catch(err => {
-            console.log("async error: ", err);
+            console.log("async err: ", err);
           });
 
           // 第三个参数设置超时时间
@@ -76,22 +74,6 @@
             .then(res => {
               console.log("async res: ", res);
             }).catch(err => {
-              console.log("async err: ", err);
-            });
-
-          instance.getStorage(this.key, (err, res) => {
-            if (err) {
-              console.log("callback error: ", err);
-              return;
-            }
-            console.log("callback res: ", res);
-          });
-        },
-        handleDataGet() {
-          instance.getStorage(this.key)
-            .then(res => {
-              console.log("res: ", res);
-            }).catch(err => {
               if (err.flog === LocalstorageOperate.OVERTIME) {
                 // 数据已超时
                 console.log(err);
@@ -102,6 +84,22 @@
                 console.log("其他错误: ", err);
               }
             });
+
+          instance.getStorage(this.key, (err, res) => {
+            if (err) {
+              if (err.flog === LocalstorageOperate.OVERTIME) {
+                // 数据已超时
+                console.log(err);
+              } else if (err.flog === LocalstorageOperate.VOID) {
+                // 不存在对应的数据
+                console.log(err);
+              } else {
+                console.log("其他错误: ", err);
+              }
+              return;
+            }
+            console.log("callback res: ", res);
+          });
         },
         async getStorageInfo() {
           // 缓存数据的key
@@ -128,21 +126,25 @@
           // 清空所有的数据
           // await instance.clearStorage()
         },
+
+        // 效果同对应的 api(没有缓存的效果)
         originMethods() {
-          // 效果同对应的 api(没有缓存的效果)
 
-          // -> localStorage.setItem();
           instance.setStorageSync(this.key, this.value);
+          // -> localStorage.setItem();
 
-          // -> localStorage.getItem();
           let value = instance.getStorageSync(this.key);
+          // -> localStorage.getItem();
           console.log(`key: ${this.key}, value: ${value}`);
 
-          instance.removeStorageSync(this.key); // -> localStorage.removeItem();
+          instance.removeStorageSync(this.key);
+          // -> localStorage.removeItem();
+
           value = instance.getStorageSync(this.key);
           console.log(`key: ${this.key}, value: ${value}`);
 
-          // instance.clearStorageSync(); // -> localStorage.clear();
+          // instance.clearStorageSync();
+          // -> localStorage.clear();
         }
       }
     }).mount("#app");
