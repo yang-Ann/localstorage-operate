@@ -1,6 +1,6 @@
 {
   "name": "@anlib/localstorage-operate",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "types": "lib/index.d.ts",
   "description": "",
@@ -20,7 +20,8 @@
     "url": "https://github.com/yang-Ann/localstorage-operate"
   },
   "files": [
-    "lib"
+    "lib",
+    "test.html"
   ],
   "license": "MIT",
   "scripts": {
@@ -30,7 +31,7 @@
     "lint": "eslint src --ext .ts",
     "prettier": "prettier --write src",
     "test": "serve test.html -p 8808",
-    "pub": "npm publish -- --access public"
+    "pub": "npm publish"
   },
   "devDependencies": {
     "@anlib/eslint-config-ts": "^1.0.4",
