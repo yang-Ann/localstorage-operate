@@ -10,12 +10,14 @@
   "browser": "lib/bundle.browser.js",
   "amd": "lib/bundle.amd.js",
   "homepage": "",
-  "bugs": {},
+  "bugs": {
+    "url": "https://github.com/yang-Ann/localstorage-operate/issues"
+  },
   "keywords": [],
   "author": "An 331536495@qq.com <https://ann-yang.gitee.io/note-sites/>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/yang-Ann/localstorage-operate"
   },
   "files": [
     "lib"
