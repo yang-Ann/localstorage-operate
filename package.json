@@ -1,9 +1,9 @@
 {
   "name": "@anlib/localstorage-operate",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "types": "lib/index.d.ts",
-  "description": "",
+  "description": "简单封装本地存储带有数据超时功能, 支持web, uniapp, 微信小程序",
   "main": "lib/bundle.cjs.js",
   "jsnext:main": "lib/bundle.esm.js",
   "module": "lib/bundle.esm.js",
@@ -14,7 +14,7 @@
     "url": "https://github.com/yang-Ann/localstorage-operate/issues"
   },
   "keywords": [],
-  "author": "An 331536495@qq.com <https://ann-yang.gitee.io/note-sites/>",
+  "author": "An <331536495@qq.com> (https://ann-yang.gitee.io/note-sites/)",
   "repository": {
     "type": "git",
     "url": "https://github.com/yang-Ann/localstorage-operate"
