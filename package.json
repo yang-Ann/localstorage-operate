@@ -1,6 +1,6 @@
 {
   "name": "@anlib/localstorage-operate",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "types": "lib/index.d.ts",
   "description": "简单封装本地存储带有数据超时功能, 支持web, uniapp, 微信小程序",
